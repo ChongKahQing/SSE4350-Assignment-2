@@ -1,0 +1,41 @@
+package assignment2;
+
+import java.util.Scanner;
+
+public class StudentTest {
+	
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		Scanner input = new Scanner(System.in);
+		
+		StudentView view = new StudentView();
+		
+		boolean loop = true;
+		
+		// Create a view
+		while(loop) {
+		
+			// Offer choice for user and receive input
+			System.out.print("\nInsert 1 for Input Mark, insert 2 for Check Student Mark:");
+			int option = input.nextInt();
+			
+			// Check input and request value again if input is not available
+			while(option != 1 && option != 2) {
+				System.out.println("Invalid input. Please enter again.");
+				System.out.println("Insert 1 for Input Mark, insert 2 for Check Student Mark:");
+				option = input.nextInt();
+			}
+
+		//display different view base on the option
+		view.display(option);
+		
+		System.out.println("Enter 1 to continue, enter 2 to end.");
+		if (input.nextInt() == 1)
+			loop = true;
+		else
+			loop = false;
+	
+		}
+		System.out.println("End the program.");
+	}
+}
