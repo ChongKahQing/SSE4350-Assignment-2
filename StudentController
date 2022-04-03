@@ -1,0 +1,59 @@
+package assignment2;
+
+import java.sql.*;
+
+public class StudentController {
+
+	private student model;
+	private StudentView view;
+
+
+	public StudentController(student model, StudentView view) {
+		this.model = model;
+		this.view = view;
+	}
+
+	// Read data of student from user and save it into database
+	public void newStudent(int stuID, String stuName, String department, double mathMark, double scienceMark) throws SQLException{
+
+		// Establishing connection and create statement
+		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/db2?", "root", "Chong147#");
+		Statement stmt = conn.createStatement();
+
+		// Inserting data into database
+		stmt.executeUpdate("INSERT INTO STUDENT VALUES (" + stuID + ", '" + stuName + "', '" + department + "', " + mathMark + ", " + scienceMark + ");");
+
+		// Send a notification
+		System.out.println("Data has been input into database.");
+	}
+	
+	// Read student id from user and retrieve data from database
+	public void getStudent(int stuID)throws SQLException{
+		// Create an object for model class
+		student studentModel = new student();
+		
+		// Establishing connection
+		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/db2?", "root", "Chong205834");
+		
+		// Searching for specific student from the database
+		String mySQL = "SELECT * FROM STUDENT WHERE stuID = " + stuID;
+		
+		// Execute the statement
+		Statement stmt = conn.createStatement();
+		ResultSet rs = stmt.executeQuery(mySQL);
+		
+		if(rs.next()) {
+			studentModel.setStudentID(rs.getInt("stuID"));
+			studentModel.setStudent_name(rs.getString("stuName"));
+			studentModel.setDepartment(rs.getString("department"));
+			studentModel.setMath_mark(rs.getDouble("mathMark"));
+			studentModel.setScience_mark(rs.getDouble("scienceMark"));
+		}
+		
+		// Passing the data to view to be displayed to the user
+		view.display(studentModel.getStudentID(), studentModel.getStudent_name(), studentModel.getDepartment(), studentModel.getMath_mark(), studentModel.getScience_mark());
+		
+		
+	}
+
+}
