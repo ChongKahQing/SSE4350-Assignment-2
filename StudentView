@@ -1,0 +1,69 @@
+/*NAME:CHONG KAH QING
+ *MATRIC NUM:205834 
+ */
+package assignment2;
+
+import java.sql.*;
+import java.util.Scanner;
+
+public class StudentView {
+
+	// To display information required by user
+	public void display(int choice) {
+		// Create a new object model and new object controller
+		student studentModel = new student();
+		StudentController studentController = new StudentController(studentModel, this);
+		// To receive input
+		Scanner input = new Scanner(System.in);
+		
+		// Decide action done based on choice
+		if (choice == 1) {
+			try {
+				// Reading data from user
+				System.out.println("Please enter the data.");
+				System.out.print("Please enter the Student ID: ");
+				int stuID = input.nextInt();
+				
+				System.out.print("Please enter the Student name: ");
+				String stuName = input.next();
+				
+				input.nextLine();
+				System.out.print("Please enter the department: ");
+				String department = input.nextLine();
+				
+				System.out.print("Please enter the math mark: ");
+				double mathMark = input.nextDouble();
+				
+				System.out.print("Please enter the science mark: ");
+				double scienceMark = input.nextDouble();
+				
+				// Inserting the data through controller
+				studentController.newStudent(stuID, stuName, department, mathMark, scienceMark);
+			}catch (SQLException e) {
+				e.printStackTrace();				
+			}
+		}else if (choice == 2) {
+			// Reading student's id from user
+			System.out.print("Please enter the Student ID: ");
+			int stuID = input.nextInt();
+			try {
+				// Reading data from database through controller
+				studentController.getStudent(stuID);
+			}catch (SQLException e) {
+				e.printStackTrace();				
+			}
+		}
+	}
+	
+	// To display information required by controller
+	public void display (int stuID, String stuName, String department, double mathMark, double scienceMark) {
+		System.out.println("Student Details: ");
+		System.out.println("Student ID: " + stuID);
+		System.out.println("Student Name: " + stuName);
+		System.out.println("Student Department: " + department);
+		System.out.println("Math Mark: " + mathMark);
+		System.out.println("Science Mark: " + scienceMark);
+	}
+	
+	
+}
